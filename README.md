@@ -1,2 +1,2 @@
 # MCA
-The website which handles everything regarding MCA
+The website for Mapper's Choice Awards
