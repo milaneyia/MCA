@@ -20,7 +20,7 @@ async function start() {
         nuxt.render(ctx.req, ctx.res)
     })
     
-    App.listen(Config.http.port, Config.http.host);
+    App.listen(Config.http.port, Config.http.host);``
 }
 
 start();
