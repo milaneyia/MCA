@@ -13,4 +13,8 @@ AppRouter.get("/api/test", (ctx) => {
 })
 
 App.use(AppRouter.routes());
-App.listen();
+
+export default {
+    path: "/",
+    handler: App,
+}
