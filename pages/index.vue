@@ -1,20 +1,27 @@
 <template>
-  <h1 @click="console.log('osu')">Hello world!</h1>
+  <h1 @click="testfunc">Hello world!</h1>
 </template>
 
-<script lang="ts">
+<script>
 import axios from "axios"
 
 export default {
-  async asyncData(context) {
-    try {
-      await axios.get("/api/test")
-      console.log("GJ")
-    } catch(err) {
-      console.log("GJ test")
-      console.log(err)
+  data: () => ({
+    test: false,
+  }),
+  created: async function() {
+  },
+  methods: {
+    testfunc: async function() {
+      try {
+        await axios.get("/api/test")
+        console.log("GJ it works")
+      } catch(err) {
+        console.log("GJ it still doesn't work")
+        console.log(err)
+      }
+      return
     }
-    return
-  }
+  },
 }
 </script>

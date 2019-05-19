@@ -1,3 +1,7 @@
-export default {
-    serverMiddleware: ["~/api/index.ts"]
+import NuxtConfiguration from "@nuxt/config"
+
+const config: NuxtConfiguration = {
+  serverMiddleware: ['~/api'],
 }
+
+export default config
