@@ -14,8 +14,9 @@ export default {
   methods: {
     testfunc: async function() {
       try {
-        await axios.get("/api/test")
+        const data = (await axios.get("/api/test")).data
         console.log("GJ it works")
+        console.log(data)
       } catch(err) {
         console.log("GJ it still doesn't work")
         console.log(err)

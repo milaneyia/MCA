@@ -15,7 +15,9 @@
     "koa-bodyparser": "^4.2.1",
     "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
+    "mariadb": "^2.0.5",
     "nuxt": "^2.7.1",
+    "sequelize": "^5.8.6",
     "vuetify": "^1.5.14"
   },
   "devDependencies": {
