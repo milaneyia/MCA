@@ -4,7 +4,7 @@
   "description": "The website for Mapper's Choice Awards",
   "main": "./server/index.ts",
   "scripts": {
-    "dev": "nuxt"
+    "dev": "nodemon --watch api --exec \"nuxt\" -e ts"
   },
   "author": "",
   "license": "MIT",
@@ -15,15 +15,21 @@
     "koa-bodyparser": "^4.2.1",
     "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
+    "koa-session": "^5.12.0",
     "mariadb": "^2.0.5",
     "nuxt": "^2.7.1",
+    "reflect-metadata": "^0.1.13",
     "sequelize": "^5.8.6",
+    "sequelize-typescript": "^1.0.0-beta.3",
     "vuetify": "^1.5.14"
   },
   "devDependencies": {
     "@nuxt/typescript": "^2.7.1",
+    "@types/bluebird": "^3.5.27",
     "@types/koa": "^2.0.48",
+    "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.0.40",
+    "@types/validator": "^10.11.0",
     "nodemon": "^1.19.0",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
