@@ -1,19 +1,29 @@
-import {Table, Column, Model, HasMany, AllowNull, PrimaryKey, ForeignKey} from 'sequelize-typescript';
+import {Table, Column, Model, ForeignKey, BelongsTo, DefaultScope} from 'sequelize-typescript';
+import { Nomination } from './nomination';
 import { User } from './user';
-import { Beatmapset } from './beatmapset';
 
+@DefaultScope({
+    include: [
+        {
+            model: () => Nomination,
+        },
+    ]
+})
 @Table({
     timestamps: true,
 })
 export class Vote extends Model<Vote> {
     @Column
-    vote: number;
+    points: number;
     
     @ForeignKey(() => User)
     @Column
     userId: number;
 
-    @ForeignKey(() => Beatmapset)
+    @ForeignKey(() => Nomination)
     @Column
-    beatmapsetId: number;
+    nominationId: number;
+
+    @BelongsTo(() => Nomination)
+    nomination: Nomination;
 }

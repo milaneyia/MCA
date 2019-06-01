@@ -6,19 +6,21 @@ export class Config {
     }
     osuApi : {
         id: number,
-        redirect: string
+        redirect: string,
         secret: string,
+        v1: string
     }
     constructor() {
-        this.database = { // Connect to MariaDB via Sequelize
-            name: '', // DB Name
-            username: '', // username for access
-            password: '' // password for access
+        this.database = {
+            name: '',
+            username: '',
+            password: ''
         },
         this.osuApi = {
             id: 0,
             redirect: '',
-            secret: ''
+            secret: '',
+            v1: ''
         }
     }
 }

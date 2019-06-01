@@ -1,13 +1,21 @@
 <template>
-  <div>
-    <table>
-      <tr v-for="beatmapset in beatmapsets" :key="beatmapset.id">
-        <th>{{ beatmapset.artist + " - " + beatmapset.title }}</th>
-        <th>{{ beatmapset.creator }}</th>
-        <th><button @click="vote(beatmapset.id, 7)">vote</button></th>
-      </tr>
-    </table>
-  </div>
+    <div>
+        <form v-if="!user" action="/api/login" method="get">
+            <button type="submit">loginorsmtg</button>
+        </form>
+
+        <span v-if="user && !user.canVote" >
+            <select v-model="modeId">
+                <option value="1">std</option>
+                <option value="2">taiko</option>
+                <option value="3">ctb</option>
+                <option value="4">mania</option>
+                <option value="5">sb</option>
+            </select>
+            <input type="text" v-model="evidence" @keyup.enter="requestAccess" placeholder="ur unranked, link gd">
+            <p v-if="info">{{ info }}</p>
+        </span>
+    </div>
 </template>
 
 <script>
@@ -16,34 +24,46 @@ import axios from 'axios';
 export default {
     data () {
         return {
-            beatmapsets: null,
+            user: null,
+            evidence: null,
+            info: null,
+            modeId: null,
         }
     },
     mounted: async function() {
         try {
-            const data = (await axios.get('/api/beatmapsets')).data;
-            if (data.beatmapsets) {
-                this.beatmapsets = data.beatmapsets;
+            const data = (await axios.get(`/api/initialData/user`)).data;
+            
+            if (!data.error) {
+                this.user = data.user;
             }
         } catch (err) {
             console.log(err);
         }
     },
     methods: {
-        vote: async (beatmapsetId, vote) => {
+        requestAccess: async function() {
+            if (!this.evidence.includes('osu.ppy.sh/')) {
+                this.info = 'not an osu link';
+                return;
+            }
+
+            if (!this.modeId) {
+                this.info = 'select a mode';
+                return;
+            }
+            
             try {
-                const res = (await axios.post('/api/vote', { 
-                    beatmapsetId: beatmapsetId, 
-                    vote: vote
+                const data = (await axios.post(`/api/users/requestAccess`, {
+                    evidence: this.evidence,
+                    modeId: this.modeId,
                 })).data;
 
-                if (res.success) {
-                    //something
-                }
+                this.info = data.response;
             } catch (err) {
                 console.log(err);
             }
-        }
+        },
     }
 };
 </script>

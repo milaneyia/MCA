@@ -72,4 +72,48 @@ export default class OsuApi {
             return { error: error };
         }
     }
+
+    async setPermissions(userId: number) {
+        try {
+            let permissions = [];
+
+            for (let mode = 0; mode < 4; mode++) {
+                let bms = (await axios.get(`https://osu.ppy.sh/api/get_beatmaps?k=${config.osuApi.v1}&u=${userId}&m=${mode}`)).data;
+
+                bms = bms.filter(b => {
+                    let rankedAt = new Date(b.approved_date);
+                    return b.approved == 1 && rankedAt >= new Date(2018, 1, 1) && rankedAt < new Date(2019, 1 ,1);
+                });
+
+                if (bms.length >= 1) {
+                    permissions.push({
+                        userId: userId,
+                        modeId: mode + 1, // To fit modeId in DB
+                        canVote: true,
+                    });
+                }
+            }
+
+            // can vote SB if has any ranked map
+            if (permissions.length) {
+                permissions.push({
+                    userId: userId,
+                    modeId: 5,
+                    canVote: true,
+                });
+
+            }
+            return permissions;
+        } catch (error) {
+            return [];
+        }
+    }
+
+    async searchUser(user: string|number) {
+        try {
+            return (await axios.get(`https://osu.ppy.sh/api/get_user?k=${config.osuApi.v1}&u=${user}`)).data;
+        } catch (error) {
+            return { error: error };
+        }
+    }
 }

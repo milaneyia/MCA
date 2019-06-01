@@ -8,9 +8,6 @@
                 <img class="dividerheader" src="/img/divider.png">
             </nuxt-link>
             <div class="countdown">
-                <form action="/api/login" method="get">
-                    <button type="submit">loginorsmtg</button>
-                </form>
                 <div>2018 MAPPER'S CHOICE AWARDS</div>
                 12
                 <div>DAYS TO VOTE</div>

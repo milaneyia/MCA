@@ -1,12 +1,12 @@
-import {Table, Column, Model, HasMany, AllowNull, PrimaryKey} from 'sequelize-typescript';
+import {Table, Column, Model, PrimaryKey, ForeignKey} from 'sequelize-typescript';
+import { Mode } from './mode';
 
 @Table({
     timestamps: false
 })
 export class Beatmapset extends Model<Beatmapset> {
-    @PrimaryKey
     @Column
-    id: number;
+    osuId: number;
     @Column
     artist: string;
     @Column
@@ -16,35 +16,47 @@ export class Beatmapset extends Model<Beatmapset> {
     @Column
     creatorId: number;
     @Column
-    bpm: number;
-    @Column
     source: number;
     @Column
     tags: number;
     @Column
     genreId: number;
     @Column
-    languageId: number;
+    genre: string;
     @Column
-    favouriteCount: number;
+    isMarathon: boolean;
     @Column
-    playCount: number;
+    isSpread: boolean;
+
+    // taiko stuff
     @Column
-    totalLength: number;
+    isSvHeavy: boolean;
     @Column
-    hitLength: number;
+    isTechHeavy: boolean;
+    
+    // mania stuff
     @Column
-    difficulties: number;
+    isLN: boolean;
     @Column
-    lowestSr: number;
+    isSV: boolean;
     @Column
-    combinedDrain: number;
+    isAntiMeta: boolean;
+
+    // sb stuff
     @Column
-    storyboard: boolean;
+    storyboarder: string;
     @Column
-    marathon: boolean;
+    storyboarderIds: string;
     @Column
-    spread: boolean;
+    isTechnical: boolean;
     @Column
-    genre: number;
+    isGameplay: boolean;
+    @Column
+    isMinimalist: boolean;
+    @Column
+    isNarrative: boolean;
+    
+    @ForeignKey(() => Mode)
+    @Column
+    modeId: Number;
 }
