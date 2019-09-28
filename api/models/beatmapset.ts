@@ -1,4 +1,4 @@
-import {Table, Column, Model, PrimaryKey, ForeignKey} from 'sequelize-typescript';
+import { Table, Column, Model, PrimaryKey, ForeignKey } from 'sequelize-typescript';
 import { Mode } from './mode';
 
 @Table({

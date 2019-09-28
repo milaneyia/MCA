@@ -1,6 +1,4 @@
-import NuxtConfiguration from "@nuxt/config"
-
-const config: NuxtConfiguration = {
+export default {
   serverMiddleware: ['~/api'],
   head: {
     title: `mapper's choice awards`, 
@@ -14,7 +12,6 @@ const config: NuxtConfiguration = {
   },
   css: [
       '~static/css/layout.css',
-  ]
+  ],
+  buildModules: ['@nuxt/typescript-build'],
 }
-
-export default config
