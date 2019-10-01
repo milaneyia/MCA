@@ -3,13 +3,17 @@ export class Config {
         name: string,
         username: string,
         password: string
-    }
+    };
+
     osuApi : {
         id: number,
         redirect: string,
         secret: string,
         v1: string
-    }
+    };
+
+    keys: Array<string>;
+
     constructor() {
         this.database = {
             name: '',
@@ -22,5 +26,6 @@ export class Config {
             secret: '',
             v1: ''
         }
+        this.keys = ['']
     }
 }
