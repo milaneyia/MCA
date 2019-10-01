@@ -25,7 +25,7 @@ export default {
     },
     mounted: async function() {
         try {
-            const data = (await axios.get(`/api/initialData/staff`)).data;
+            const data = (await axios.get(`/api/staff`)).data;
 
             if (!data.error) {
                 this.requests = data.requests;
@@ -37,7 +37,7 @@ export default {
     methods: {
         grantAccess: async function(userId, modeId) {
             try {
-                const data = (await axios.post(`/api/users/grantAccess`, {
+                const data = (await axios.post(`/api/staff/grantAccess`, {
                     userId: userId,
                     modeId: modeId,
                 })).data;
@@ -49,7 +49,7 @@ export default {
         },
         denyAccess: async function(userId, modeId) {
             try {
-                const data = (await axios.post(`/api/users/denyAccess`, {
+                const data = (await axios.post(`/api/staff/denyAccess`, {
                     userId: userId,
                     modeId: modeId,
                 })).data;

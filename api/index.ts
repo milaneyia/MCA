@@ -3,31 +3,31 @@ import Session from 'koa-session';
 import BodyParser from 'koa-bodyparser';
 import { Sequelize } from 'sequelize-typescript';
 import { Config } from '../Config';
-import { User } from './models/user';
-import { Beatmapset } from './models/beatmapset';
-import { Vote } from './models/vote';
-import { Nomination } from './models/nomination';
-import { Category } from './models/category';
-import { Mode } from './models/mode';
-import { Permission } from './models/permission';
-import Routes from './routes';
-import seed from './seed';
+import logInRouter from './routes/logIn';
+import nominationsRouter from './routes/nominations';
+import votingRouter from './routes/voting';
+import usersRouter from './routes/users';
+import staffRouter from './routes/staff';
 
 const app = new Koa();
 const config = new Config;
 const server = new Sequelize(config.database.name, config.database.username, config.database.password, {
     host: 'localhost',
     dialect: 'mariadb',
+    dialectOptions: {
+        timezone: "Etc/GMT-0"
+    },
+    models: [__dirname + '/models'],
 });
-
-server.addModels([__dirname + '/models']);
-server.sync().then(seed).catch((error) => console.log(error));
 
 app.keys = config.keys;
 app.use(Session(app));
 app.use(BodyParser());
-app.use(Routes.routes());
-app.use(Routes.allowedMethods());
+app.use(logInRouter.routes());
+app.use(nominationsRouter.routes());
+app.use(votingRouter.routes());
+app.use(usersRouter.routes());
+app.use(staffRouter.routes());
 
 server.authenticate().then(() => {
     console.log('Connection has been established successfully.');
@@ -36,6 +36,6 @@ server.authenticate().then(() => {
 });
 
 export default {
-    path: "/api",
+    path: '/api',
     handler: app.callback(),
 }

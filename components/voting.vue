@@ -1,36 +1,25 @@
 <template>
     <div>
-        <select v-model="selectedCategory">
-            <option
-                v-for="category in categories"
-                :key="category.id"
-                :value="category"
-            >
-                {{ category.name }}
-            </option>
-        </select>
-        <span v-if="selectedCategory">
-            <span v-for="nominee in nominees" :key="nominee.id">
-                <span v-if="nominee.categoryId == selectedCategory.id">
-                    <slot :nominee="nominee"></slot>
+        <div v-for="nominee in nominees" :key="nominee.id">
+            <span v-if="nominee.subCategoryId == subCategory.id">
+                <slot :nominee="nominee"></slot>
+                <button
+                    v-if="hasVoted(nominee.id)"
+                    style="background-color: red;"
+                    @click="unvote(nominee.id)"
+                >
+                    {{ getPoints(nominee.id) }}
+                </button>
+                <span v-else v-for="points in 7" :key="points">
                     <button
-                        v-if="hasVoted(nominee.id)"
-                        style="background-color: red;"
-                        @click="unvote(nominee.id)"
+                        v-if="canVote(subCategory.id, points)"
+                        @click="vote(nominee.id, points)"
                     >
-                        {{ getPoints(nominee.id) }}
+                        {{ points }}
                     </button>
-                    <span v-else v-for="points in 7" :key="points">
-                        <button
-                            v-if="canVote(selectedCategory.id, points)"
-                            @click="vote(nominee.id, points)"
-                        >
-                            {{ points }}
-                        </button>
-                    </span>
                 </span>
             </span>
-        </span>
+        </div>
     </div>
 </template>
 
@@ -40,14 +29,9 @@ import axios from 'axios';
 export default {
     props: {
         nominees: Array,
-        categories: Array,
+        subCategory: Object,
         votes: Array,
         mode: Number,
-    },
-    data () {
-        return {
-            selectedCategory: null,
-        }
     },
     methods: {
         getPoints: function(nomineeId) {
@@ -62,9 +46,9 @@ export default {
                 return false;
             }
         },
-        canVote: function(categoryId, points) {
+        canVote: function(subCategoryId, points) {
             if (this.votes) {
-                const count = this.votes.filter(v => v.points == points && v.nomination.categoryId == categoryId);
+                const count = this.votes.filter(v => v.points == points && v.nomination.subCategoryId == subCategoryId);
                 let canVote = false;
                 switch (points) {
                     case 7:
@@ -91,7 +75,7 @@ export default {
         },
         vote: async function(nomineeId, points) {
             try {
-                const data = (await axios.post('/api/votes/vote', { 
+                const data = (await axios.post('/api/voting/vote', { 
                     nomineeId: nomineeId,
                     points: points,
                     modeId: this.mode,
@@ -109,7 +93,7 @@ export default {
             const points = this.getPoints(nomineeId);
 
             try {
-                const data = (await axios.post('/api/votes/unvote', { 
+                const data = (await axios.post('/api/voting/unvote', { 
                     nomineeId: nomineeId,
                     points: points,
                     modeId: this.mode,

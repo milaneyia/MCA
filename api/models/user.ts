@@ -1,5 +1,5 @@
-import {Table, Column, Model, AllowNull, PrimaryKey, HasMany, DefaultScope} from 'sequelize-typescript';
-import { Permission } from './permission';
+import { Table, Column, Model, AllowNull, PrimaryKey, HasMany, DefaultScope } from 'sequelize-typescript';
+import { Permission } from './Permission';
 
 @DefaultScope({
     include: [
@@ -31,4 +31,8 @@ export class User extends Model<User> {
 
     @HasMany(() => Permission)
     permissions: Permission[];
+
+    canParticipateFor(modeId) {
+        return this.permissions.find(p => p.modeId == modeId && p.canParticipate) ? true : false;
+    }
 }

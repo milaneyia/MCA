@@ -1,12 +1,13 @@
 import { Table, Column, Model, PrimaryKey, ForeignKey } from 'sequelize-typescript';
-import { Mode } from './mode';
+import { Mode } from './Mode';
 
 @Table({
     timestamps: false
 })
 export class Beatmapset extends Model<Beatmapset> {
+    @PrimaryKey
     @Column
-    osuId: number;
+    id: number;
     @Column
     artist: string;
     @Column
@@ -16,9 +17,9 @@ export class Beatmapset extends Model<Beatmapset> {
     @Column
     creatorId: number;
     @Column
-    source: number;
+    source: string;
     @Column
-    tags: number;
+    tags: string;
     @Column
     genreId: number;
     @Column

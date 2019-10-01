@@ -1,7 +1,9 @@
-import {Table, Column, Model, ForeignKey, AllowNull, BelongsTo, DefaultScope} from 'sequelize-typescript';
-import { User } from './user';
-import { Beatmapset } from './beatmapset';
-import { Category } from './category';
+import { AllowNull, BelongsTo, Column, DefaultScope, ForeignKey, Model, Table, Scopes } from 'sequelize-typescript';
+import { Beatmapset } from './Beatmapset';
+import { User } from './User';
+import { SubCategory } from './SubCategory';
+import { Category, Categories } from './Category';
+import { Op } from 'sequelize';
 
 @DefaultScope({
     include: [
@@ -14,6 +16,48 @@ import { Category } from './category';
         },
     ]
 })
+@Scopes(() => ({
+    allByModeAndNominator: (modeId: number, nominatorId: number) => ({
+        include: [{
+            model: SubCategory,
+            include: [{
+                model: Category,
+                where: {
+                    modeId: modeId,
+                },
+            }]
+        }],
+        where: {
+            nominatorId: nominatorId,
+        },
+    }),
+    allBeatmapsNominationsByMode: (modeId: number) => ({
+        include: [{
+            model: SubCategory,
+            include: [{
+                model: Category,
+                where: {
+                    name: {
+                        [Op.or]: [Categories.Beatmaps, Categories.Genre],
+                    },
+                    modeId: modeId,
+                },
+            }]
+        }],
+    }),
+    allMappersNominationsByMode: (modeId: number) => ({
+        include: [{
+            model: SubCategory,
+            include: [{
+                model: Category,
+                where: {
+                    name: Categories.Mappers,
+                    modeId: modeId,
+                },
+            }]
+        }],
+    }),
+}))
 @Table({
     timestamps: true,
 })
@@ -23,13 +67,16 @@ export class Nomination extends Model<Nomination> {
     @Column
     nominatorId: number;
 
-    @ForeignKey(() => Category)
+    @BelongsTo(() => User, 'nominatorId')
+    nominator: User;
+    
+    @ForeignKey(() => SubCategory)
     @AllowNull(false)
     @Column
-    categoryId: number;
+    subCategoryId: number;
     
-    @BelongsTo(() => Category)
-    category: Category;
+    @BelongsTo(() => SubCategory)
+    subCategory: SubCategory;
 
     @ForeignKey(() => Beatmapset)
     @Column

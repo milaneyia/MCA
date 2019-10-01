@@ -4,11 +4,13 @@
   "description": "The website for Mapper's Choice Awards",
   "main": "./server/index.ts",
   "scripts": {
-    "dev": "nodemon --watch api --exec \"nuxt\" -e ts"
+    "dev": "nodemon --watch api --exec nuxt-ts",
+    "seed": "ts-node api/seeder.ts"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@nuxt/typescript-runtime": "^0.1.7",
     "axios": "^0.18.1",
     "discord.js": "^11.5.1",
     "koa": "^2.8.2",
@@ -29,6 +31,7 @@
     "@types/koa": "^2.0.50",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.0.42",
+    "@types/node": "^12.7.8",
     "@types/validator": "^10.11.3",
     "nodemon": "^1.19.2",
     "ts-node": "^8.4.1",

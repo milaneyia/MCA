@@ -1,20 +1,20 @@
 <template>
-    <mode-content
+    <voting-content
         :mode="mode"
-    ></mode-content>
+    ></voting-content>
 </template>
 
 <script>
 import axios from 'axios';
-import modeContent from '~/components/modeContent';
+import votingContent from '~/components/votingContent';
 
 export default {
     components: {
-        modeContent,
+        votingContent,
     },
     data () {
         return {
-            mode: 3,
+            mode: 1,
         }
     },
 };

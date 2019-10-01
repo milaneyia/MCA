@@ -1,6 +1,8 @@
-import {Table, Column, Model, ForeignKey, BelongsTo, DefaultScope} from 'sequelize-typescript';
-import { Nomination } from './nomination';
-import { User } from './user';
+import { Table, Column, Model, ForeignKey, BelongsTo, DefaultScope, Scopes } from 'sequelize-typescript';
+import { Nomination } from './Nomination';
+import { User } from './User';
+import { SubCategory } from './SubCategory';
+import { Category } from './Category';
 
 @DefaultScope({
     include: [
@@ -9,6 +11,25 @@ import { User } from './user';
         },
     ]
 })
+@Scopes(() => ({
+    allByModeAndUser: (modeId: number, userId: number) => ({
+        include: [{
+            model: Nomination,
+            include: [{
+                model: SubCategory,
+                include: [{
+                    model: Category,
+                    where: {
+                        modeId: modeId,
+                    },
+                }],
+            }],
+        }],
+        where: {
+            userId: userId,
+        },
+    })
+}))
 @Table({
     timestamps: true,
 })

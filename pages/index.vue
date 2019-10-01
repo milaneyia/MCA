@@ -4,7 +4,8 @@
             <button type="submit">loginorsmtg</button>
         </form>
 
-        <span v-if="user && !user.canVote" >
+        requestAccess for
+        <span v-if="user && !user.canParticipate" >
             <select v-model="modeId">
                 <option value="1">std</option>
                 <option value="2">taiko</option>
@@ -32,7 +33,7 @@ export default {
     },
     mounted: async function() {
         try {
-            const data = (await axios.get(`/api/initialData/user`)).data;
+            const data = (await axios.get(`/api/user`)).data;
             
             if (!data.error) {
                 this.user = data.user;
@@ -42,24 +43,14 @@ export default {
         }
     },
     methods: {
-        requestAccess: async function() {
-            if (!this.evidence.includes('osu.ppy.sh/')) {
-                this.info = 'not an osu link';
-                return;
-            }
-
-            if (!this.modeId) {
-                this.info = 'select a mode';
-                return;
-            }
-            
+        requestAccess: async function() {            
             try {
                 const data = (await axios.post(`/api/users/requestAccess`, {
                     evidence: this.evidence,
                     modeId: this.modeId,
                 })).data;
 
-                this.info = data.response;
+                this.info = data.success || data.error;
             } catch (err) {
                 console.log(err);
             }
