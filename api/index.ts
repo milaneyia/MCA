@@ -8,6 +8,6 @@ const app = new App("mca")
 app.koa.use(Mount("/user", userRouter.routes()));
 
 export default {
-    path: "/apis",
+    path: "/api",
     handler: app.koa.callback(),
 }
