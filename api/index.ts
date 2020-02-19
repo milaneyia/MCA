@@ -1,11 +1,11 @@
 import "reflect-metadata";
 import { App } from "../../CorsaceServer"
 import Mount from 'koa-mount';
-import userRouter from "./routes/user"
+import UserRouter from "./routes/user"
 
 const app = new App("mca")
 
-app.koa.use(Mount("/user", userRouter.routes()));
+app.koa.use(Mount("/user", UserRouter.routes()));
 
 export default {
     path: "/api",

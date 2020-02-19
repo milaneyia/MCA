@@ -1,41 +1,33 @@
-import { User } from "../../CorsaceModels/user"
-
-async function isEligible(ctx, next) {
+async function isEligible(ctx, next): Promise<void> {
     if (!ctx.params.year) {
-        return ctx.body = { error: "No year given!" }
-    }
-
-    const user = await User.findOne({ relations: ["mca"], where: { id: ctx.state.user.id }})
-    if (!user) {
-        return ctx.body = { error: "No user found!" }
+        ctx.body = { error: "No year given!" }
+        return
     }
     
-    for (let eligibility of user.mca) {
-        if (eligibility.year === ctx.params.year) {
-            return next()
+    for (const eligibility of ctx.state.user.mca) {
+        if (eligibility.year === parseInt(ctx.params.year)) {
+            await next()
+            return
         }
     }
     
-    return ctx.body = { error: "User is not eligible!" }
+    ctx.body = { error: "User is currently not eligible!" }
 }
 
-async function isNotEligible(ctx, next) {
+async function isNotEligible(ctx, next): Promise<void> {
     if (!ctx.params.year) {
-        return ctx.body = { error: "No year given!" }
-    }
-
-    const user = await User.findOne({ relations: ["mca"], where: { id: ctx.state.user.id }})
-    if (!user) {
-        return ctx.body = { error: "No user found!" }
+        ctx.body = { error: "No year given!" }
+        return
     }
     
-    for (let eligibility of user.mca) {
-        if (eligibility.year === ctx.params.year) {
-            return ctx.body = { error: "User is eligible!" }
+    for (const eligibility of ctx.state.user.mca) {
+        if (eligibility.year === parseInt(ctx.params.year)) {
+            ctx.body = { error: "User is currently eligible!" }
+            return
         }
     }
     
-    return next()
+    await next()
 }
 
 export { isEligible, isNotEligible }
