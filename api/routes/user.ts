@@ -5,7 +5,7 @@ import { isLoggedIn } from '../../../CorsaceServer/middleware'
 import { isNotEligible } from '../middleware';
 import { Config } from '../../../config';
 import axios from 'axios';
-import { GuestRequest, Status } from '../../../CorsaceModels/MCA_AYIM/guest';
+import { GuestRequest, Status } from '../../../CorsaceModels/MCA_AYIM/guestRequest';
 
 const UserRouter = new Router();
 const config = new Config();
