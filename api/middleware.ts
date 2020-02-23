@@ -1,33 +1,36 @@
-async function isEligible(ctx, next): Promise<void> {
+import { ParameterizedContext, Next } from "koa";
+import Router from "koa-router";
+
+async function isEligible(ctx: ParameterizedContext<any, Router.IRouterParamContext<any, {}>>, next: Next): Promise<void> {
     if (!ctx.params.year) {
-        ctx.body = { error: "No year given!" }
-        return
+        ctx.body = { error: "No year given!" };
+        return;
     }
     
     for (const eligibility of ctx.state.user.mca) {
         if (eligibility.year === parseInt(ctx.params.year)) {
-            await next()
-            return
+            await next();
+            return;
         }
     }
     
-    ctx.body = { error: "User is currently not eligible!" }
+    ctx.body = { error: "User is currently not eligible!" };
 }
 
-async function isNotEligible(ctx, next): Promise<void> {
+async function isNotEligible(ctx: ParameterizedContext<any, Router.IRouterParamContext<any, {}>>, next: Next): Promise<void> {
     if (!ctx.params.year) {
-        ctx.body = { error: "No year given!" }
-        return
+        ctx.body = { error: "No year given!" };
+        return;
     }
     
     for (const eligibility of ctx.state.user.mca) {
         if (eligibility.year === parseInt(ctx.params.year)) {
-            ctx.body = { error: "User is currently eligible!" }
-            return
+            ctx.body = { error: "User is currently eligible!" };
+            return;
         }
     }
     
-    await next()
+    await next();
 }
 
-export { isEligible, isNotEligible }
+export { isEligible, isNotEligible };
