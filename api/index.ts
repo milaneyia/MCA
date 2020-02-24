@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { App } from "../../CorsaceServer"
-import Mount from 'koa-mount';
-import UserRouter from "./routes/user"
+import { App } from "../../CorsaceServer";
+import Mount from "koa-mount";
+import UserRouter from "./routes/user";
 import categoriesRouter from "./routes/staff/categories";
 
 const app = new App("mca");

@@ -82,8 +82,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Axios from 'axios';
+import Vue from "vue";
+import Axios from "axios";
 
 interface Category {
     ID: number;
@@ -99,13 +99,13 @@ export default Vue.extend({
             beatmaps: [],
             selectedCategory: {} as Category,
             modes: [],
-            info: '',
-            name: '',
+            info: "",
+            name: "",
             newCategoryMode: 0,
-        }
+        };
     },
     async mounted () {
-        const res = await Axios.get('/api/staff/categories/');
+        const res = await Axios.get("/api/staff/categories/");
 
         if (res.data && !res.data.error) {
             this.categories = res.data.categories;
@@ -115,7 +115,7 @@ export default Vue.extend({
     },
     methods: {
         async create () {
-            this.info = '';
+            this.info = "";
             const res = await Axios.post(`/api/staff/categories/create`, {
                 name: this.name,
                 mode: this.newCategoryMode,
@@ -125,7 +125,7 @@ export default Vue.extend({
                 this.info = res.data.error;
             } else if (res.data) {
                 this.categories.push(res.data);
-                this.info = 'ok';
+                this.info = "ok";
             }
         },
         async update () {
@@ -133,7 +133,7 @@ export default Vue.extend({
                 return;
             }
             
-            this.info = '';
+            this.info = "";
             const res = await Axios.post(`/api/staff/categories/${this.selectedCategory.ID}/update`, {
                 name: this.selectedCategory.name,
                 beatmaps: this.selectedCategory.beatmaps,
@@ -145,7 +145,7 @@ export default Vue.extend({
             } else if (res.data) {
                 const i = this.categories.findIndex(c => c.ID === this.selectedCategory.ID);
                 Vue.set(this.categories, i, res.data);
-                this.info = 'ok';
+                this.info = "ok";
             }
         },
         async remove () {
@@ -153,7 +153,7 @@ export default Vue.extend({
                 return;
             }
 
-            this.info = '';
+            this.info = "";
             const res = await Axios.post(`/api/staff/categories/${this.selectedCategory.ID}/remove`);
             
             if (res.data.error) {
@@ -166,6 +166,6 @@ export default Vue.extend({
                 }
             }
         },
-    }
-})
+    },
+});
 </script>
