@@ -1,0 +1,12 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin:0;
+    min-height: 100%;
+    background-image: url("../../CorsaceAssets/img/ayim-mca/site/bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

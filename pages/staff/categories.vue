@@ -5,6 +5,18 @@
             type="text"
         >
         
+        <input
+            v-model.number="maxNominations"
+            type="number"
+        >
+
+        required:
+
+        <input
+            v-model="isRequired"
+            type="checkbox"
+        >
+        
         <select v-model="newCategoryMode">
             <option 
                 v-for="mode in modes" 
@@ -37,6 +49,19 @@
                 type="text"
                 :disabled="!selectedCategory.ID"
             >
+            
+            <input
+                v-model.number="selectedCategory.maxNominations"
+                type="number"
+                :disabled="!selectedCategory.ID"
+            >
+
+            required:
+
+            <input
+                v-model="selectedCategory.isRequired"
+                type="checkbox"
+            >
                 
             <select
                 v-model="selectedCategory.modeID"
@@ -63,11 +88,11 @@
         <hr>
         
         <div
-            v-for="beatmap in beatmaps"
+            v-for="beatmap in beatmapsets"
             :key="beatmap.ID"
         >
             <input
-                v-model="selectedCategory.beatmaps"
+                v-model="selectedCategory.beatmapsets"
                 :value="beatmap"
                 type="checkbox"
             >
@@ -89,19 +114,23 @@ interface Category {
     ID: number;
     name: string;
     modeID: number;
-    beatmaps: object[];
+    maxNominations: number;
+    isRequired: boolean;
+    beatmapsets: object[];
 }
 
 export default Vue.extend({
     data () {
         return {
             categories: [] as Category[],
-            beatmaps: [],
+            beatmapsets: [],
             selectedCategory: {} as Category,
             modes: [],
             info: "",
             name: "",
             newCategoryMode: 0,
+            maxNominations: 1,
+            isRequired: false,
         };
     },
     async mounted () {
@@ -109,7 +138,7 @@ export default Vue.extend({
 
         if (res.data && !res.data.error) {
             this.categories = res.data.categories;
-            this.beatmaps = res.data.beatmaps;
+            this.beatmapsets = res.data.beatmapsets;
             this.modes = res.data.modes;
         }
     },
@@ -119,6 +148,8 @@ export default Vue.extend({
             const res = await Axios.post(`/api/staff/categories/create`, {
                 name: this.name,
                 mode: this.newCategoryMode,
+                maxNominations: this.maxNominations,
+                isRequired: this.isRequired,
             });
             
             if (res.data.error) {
@@ -136,8 +167,10 @@ export default Vue.extend({
             this.info = "";
             const res = await Axios.post(`/api/staff/categories/${this.selectedCategory.ID}/update`, {
                 name: this.selectedCategory.name,
-                beatmaps: this.selectedCategory.beatmaps,
+                beatmapsets: this.selectedCategory.beatmapsets,
                 mode: this.selectedCategory.modeID,
+                maxNominations: this.selectedCategory.maxNominations,
+                isRequired: this.selectedCategory.isRequired,
             });
             
             if (res.data.error) {

@@ -1,58 +1,51 @@
 <template>
     <div>
-        <a
-            v-if="!user || user.discord.userID === ''"
-            href="/api/login/discord"
-        >login discord</a>
-        <a
-            v-if="(user && user.osu.userID === '')"
-            href="/api/login/osu"
-        >login osu!</a>
-        <div v-if="user">
-            Discord username: {{ user.discord.username }}<br>
-            osu! username: {{ user.osu.username }}<br>
-            <p v-if="eligible">
-                You are eligible
-            </p>
-            <p v-else>
-                You are not eligible
-            </p>
-        </div>
-        {{ value }}
-        <div @click="run">
-            click to run
+        <div class="home">
+            <!---TODO: SETTLE ON A DESIGN AND REPLACE PLACEHOLDER--->
+            <div class="headings">
+                test
+            </div>
+	
+            <div class="date">
+                01/01/20 10PST - 01/13/20 10 PST
+            </div>
+
+            <!---TODO: STYLE TEXTBOX IF NEEDED--->
+            <div class="desc">
+                Mapper's Choice Awards is back for round 4 in 2019! This is a voting event where all mappers/modders can nominate and <br> 
+                vote what they think is the best map/mapper for each category. <br><br>
+
+                Our intention is to give a new perspective on the best maps of 2019 through the eyes of the mapping community! <br><br>
+
+                This year, we have separated storyboarding from the other modes to give them more emphasis, as well as going with a Google Form submission, <br>
+                making it as easy as possible for you to vote/nominate! <br><br>
+
+                We hope as many participants as possible take part in this event!
+            </div>
+	
+            <!---TODO: GET IMAGE ASSETS FOR MODE ICONS--->
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from "axios";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
+    props: {
+        user: {
+            type: Object,
+            default: () => {
+                return {};
+            },
+        },
+        eligible: Boolean,
+    },
     data () {
         return {
-            user: null,
             value: "0%",
-            eligible: false,
         };
-    },
-    mounted: async function() {
-        try {
-            const data = (await axios.get(`/api/user`)).data;
-
-            if (data.error) {
-                alert(data.error);
-            } else {
-                this.user = data.user;
-                for (const eligibility of this.user.mca) {
-                    if (eligibility.year === (new Date).getUTCFullYear) {
-                        this.eligible = true;
-                    }
-                }
-            }
-        } catch (err) {
-            console.error(err);
-        }
     },
     methods: {
         async run () {
@@ -66,5 +59,37 @@ export default {
             }
         },
     },
-};
+});
 </script>
+
+<style>
+.home {
+	display:flex;
+	flex-direction: column;
+	font-size: 12px;
+	color: white;
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+
+}
+
+/*TODO: MAKE FONT RESPONSIVE THIS IS JUST FOR TESTING */
+
+.desc {
+	font-family: 'Red Hat Display', sans-serif;
+	font-size: 1vw;
+}
+
+.date {
+	font-family: 'Red Hat Display', sans-serif;
+	font-size: 1vw;
+	margin-bottom: 5%;
+}
+
+.headings {
+	margin-top: 5%;
+	font-family: 'Lexend Peta', bold;
+	font-size: 4vw;
+}
+</style>

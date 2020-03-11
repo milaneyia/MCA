@@ -11,14 +11,13 @@ import { ModeDivision } from "../../../CorsaceModels/MCA_AYIM/modeDivision";
 const UserRouter = new Router();
 const config = new Config();
 
-
 UserRouter.get("/", isLoggedIn, async (ctx) => {
     ctx.body = { user: await ctx.state.user.getInfo() };
 });
 
 UserRouter.post("/guestDifficulty/:year", isLoggedIn, isNotEligible, async (ctx) => {
     // Check if there's already a guest difficulty request sent
-    const user: User = await User.findOne({ relations: ["guestRequest"], where: { id: ctx.state.user.id }}) as User;
+    const user = await User.findOneOrFail({ relations: ["guestRequest"], where: { id: ctx.state.user.id }});
     if (user.guestRequest) {
         ctx.body = { error: "A guest request already exists!" };
         return;
@@ -31,15 +30,18 @@ UserRouter.post("/guestDifficulty/:year", isLoggedIn, isNotEligible, async (ctx)
         ctx.body = { error: "Invalid URL!"};
         return;
     }
-    const res: RegExpExecArray = linkRegex.exec(data.url) as RegExpExecArray;
-    let beatmapID: string;
-    if (res[2] === "beatmapsets" && !res[6]) {
-        ctx.body = { error: "/beatmapsets/ URL does not have a specific difficulty linked!"};
-        return;
-    } else if (res[2] === "beatmapsets") {
-        beatmapID = res[6];
-    } else {
-        beatmapID = res[3];
+    const res = linkRegex.exec(data.url);
+    let beatmapID = "0";
+
+    if (res) {
+        if (res[2] === "beatmapsets" && !res[6]) {
+            ctx.body = { error: "/beatmapsets/ URL does not have a specific difficulty linked!"};
+            return;
+        } else if (res[2] === "beatmapsets") {
+            beatmapID = res[6];
+        } else {
+            beatmapID = res[3];
+        }
     }
 
     // Get beatmap information
