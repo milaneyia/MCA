@@ -33,6 +33,7 @@ export default {
   align-items: center;
   top: 0;
   width: 100%;
+  flex: 0 0 auto;
 }
 
 .header a {
