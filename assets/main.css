@@ -1,3 +1,12 @@
+@font-face {
+    font-family: Scoreboard;
+    src: url("../../CorsaceAssets/fonts/scoreboard.ttf");
+}
+
+:root {
+    --red-pink: #fb2475;
+}
+
 *, *:after, *:before {
     box-sizing: border-box;
 }
