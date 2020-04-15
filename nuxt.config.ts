@@ -40,6 +40,6 @@ export default {
         ],
     },
     css: [
-        "@/assets/main.css",
+        "@/assets/main.scss",
     ],
 };
