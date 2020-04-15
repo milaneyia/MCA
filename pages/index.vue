@@ -43,8 +43,6 @@
                         We hope as many participants as possible take part in this event!
                     </p>
                 </div>
-
-                <div style="width: 3px; background-color: white; margin-left: 18px" />
             </div>
         </div>
 
@@ -59,10 +57,11 @@
                         <div>
                             <small>RANKED SETS</small>
                         </div>
-                        <div style="border: 1px solid white; width: 1px; height: 100%" />
+                        <div
+                            style="border: 1px solid white; width: 1px; height: 100%; margin-left: 10px; margin-right: 10px;"
+                        />
                         <div style="font-family: Scoreboard; font-size: 2.8rem">
-                            000
-                            | 000
+                            000|000
                         </div>
                     </div>
 
@@ -109,6 +108,17 @@
                         person a, person b, person c, person d, person e
                     </div>
                 </div>
+
+                <div class="modes">
+                    <a
+                        href="#1"
+                        style="background-color: var(--standard);"
+                    />
+                    <a href="#2" />
+                    <a href="#3" />
+                    <a href="#4" />
+                    <a href="#5" />
+                </div>
             </div>
         </div>
     </div>
@@ -131,7 +141,7 @@ export default Vue.extend({
     data () {
         return {
             value: "0%",
-            startDate: "2020-04-01",
+            startDate: "2020-05-01",
         };
     },
     computed: {
@@ -179,19 +189,6 @@ export default Vue.extend({
     flex: 1 1 auto;
 }
 
-/*TODO: MAKE FONT RESPONSIVE THIS IS JUST FOR TESTING */
-
-.desc {
-	font-family: 'Red Hat Display', sans-serif;
-	font-size: 1vw;
-}
-
-.date {
-	font-family: 'Red Hat Display', sans-serif;
-	font-size: 1vw;
-	margin-bottom: 5%;
-}
-
 .left-side {
     padding-right: 35px;
     padding-top: 7%;
@@ -214,15 +211,15 @@ export default Vue.extend({
 
 .left-side__text-box {
     border-radius: 0 15px 15px 0; 
-    background-color: rgba(0, 0, 0, 0.66); 
+    background-color: rgba(0, 0, 0, 0.8); 
     padding: 45px 30px;
     display: flex;
 }
 
 .box {
     border-radius: 15px; 
-    background-color: rgba(0, 0, 0, 0.66); 
-    padding: 12px;
+    background-color: rgba(0, 0, 0, 0.7); 
+    padding: 8px;
     display: flex;
 }
 
@@ -248,12 +245,52 @@ export default Vue.extend({
 }
 
 .wrap {
-    border-top: 3px solid var(--red-pink);
-    border-left: 3px solid var(--red-pink);
-    border-bottom: 3px solid var(--red-pink);
+    border-top: 3px solid var(--standard);
     border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
     padding: 25px;
+    position: relative;
+}
+
+.wrap::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -3px;
+    border-left: 3px solid var(--standard);
+    border-bottom-left-radius: 25px;
+    border-top-left-radius: 25px;
+    width: 100%;
+    height: calc(100% - 45px);
+    z-index: -1;
+}
+
+.modes {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.modes::before {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    left: -28px;
+    border-bottom: 3px solid var(--standard);
+    width: calc(100% - 45px * 5 + 28px - 15px * 4);
+    z-index: -1;
+    border-bottom-left-radius: 25px;
+    height: 100%;
+}
+
+.modes a {
+    width: 45px;
+    height: 45px;
+    background-image: url("../../CorsaceAssets/img/ayim-mca/osu.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 100%;
+    margin-left: 15px;
 }
 
 .right-side__general,
@@ -272,7 +309,7 @@ export default Vue.extend({
 .right-side__general__vote {
     flex: 1 1 50%;
     margin-left: 10px;
-    color: var(--red-pink);
+    color: var(--standard);
     font-style: italic;
     font-size: 1.7rem;
     justify-content: flex-end;
@@ -281,7 +318,7 @@ export default Vue.extend({
     font-weight: 900;
     letter-spacing: 1.2px;
     background-color: white;
-    /* background: linear-gradient(135deg,black 0%, black 20%, white 20%, white 22%, black 22%, black 24%, white 24%, white 26%, var(--red-pink) 26%, var(--red-pink) 28%, white 28%); */
+    background: linear-gradient(135deg,#222 0%, #222 20%, white 20%, white 22%, #222 22%, #222 24%, white 24%, white 26%, var(--standard) 26%, var(--standard) 28%, white 28%);
 }
 
 .right-side__categories__title {
@@ -297,6 +334,7 @@ export default Vue.extend({
 
 .right-side__organizers-container {
     flex-direction: column;
+    margin-bottom: 15px;
 }
 
 .right-side__organizers-title {

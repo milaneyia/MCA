@@ -4,7 +4,11 @@
 }
 
 :root {
-    --red-pink: #fb2475;
+    --standard: #fb2475;
+    --taiko: rgba(252, 252, 81, 0.973);
+    --fruits: rgb(68, 255, 124);
+    --mania: rgb(77, 77, 255);
+    --storyboard: rgb(211, 100, 255);
 }
 
 *, *:after, *:before {
@@ -21,7 +25,7 @@ body {
     background-image: url("../../CorsaceAssets/img/ayim-mca/site/bg.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: auto;
     font-family: 'Red Hat Display', sans-serif;
     color: white;
 	font-size: 1rem;
