@@ -58,7 +58,7 @@
                         <small>RANKED SETS</small>
                         <div class="ranked-sets__divider" />
                         <div class="ranked-sets__content">
-                            000|000
+                            0000000
                         </div>
                     </div>
 
